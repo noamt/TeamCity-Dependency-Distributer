@@ -1,0 +1,15 @@
+apply plugin: 'artifactory'
+apply plugin: 'maven'
+apply plugin: 'java'
+apply plugin: 'idea'
+
+dependencies {
+  compile group: 'org.codehaus.groovy.modules.http-builder', name: 'http-builder', version: '0.5.1'
+}
+
+artifactory {
+  contextUrl = 'http://repo.jfrog.org/artifactory'
+  resolve {
+    repoKey = 'repo'
+  }
+}
