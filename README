@@ -1,0 +1,18 @@
+When developing TeamCity plugins, one might need to depend on JAR files found in the TeamCity installation.
+JetBrains don't distribute these common API jars via public repositories and building a dependant plugin with a
+build tool or on a build server can become a pain.
+This app scans a plugin POM file for TeamCity dependencies, locates said dependencies in the TeamCity installation,
+installs them in the local .m2 directory and deploys them to a repository.
+
+The POM file is expected to declare:
+    -A property named 'teamcity.version' with the value of the currently used version of TeamCity.
+    -All dependencies from $TC_INSTALL/buildAgent/lib with a groupId of 'org.jetbrains.teamcity.agent'.
+    -All dependencies from $TC_INSTALL/webapps/ROOT/WEB-INF/lib with a groupId of 'org.jetbrains.teamcity.webapp'.
+    -All dependencies from $TC_INSTALL/lib with a groupId of 'org.jetbrains.teamcity.tomcat'.
+    -All dependencies with an artifactId equal to the name of the dependency JAR file (omitting the suffix).
+
+The 'script.properties' file holds the following settings:
+    -Path of the project POM file.
+    -Path of the TeamCity installation directory.
+    -Deployment repository URL.
+    -Deployment credentials.
